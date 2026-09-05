@@ -7,12 +7,14 @@ function showSuccessAnimation(msg) {
     const successBox = document.getElementById('successBox');
     const successMsg = document.getElementById('successMessage');
     
-    successMsg.innerText = msg;
-    successBox.classList.add('show');
+    if (successBox && successMsg) {
+        successMsg.innerText = msg;
+        successBox.classList.add('show');
 
-    setTimeout(() => {
-        successBox.classList.remove('show');
-    }, 3500);
+        setTimeout(() => {
+            successBox.classList.remove('show');
+        }, 3500);
+    }
 }
 
 function downloadDirect() {
@@ -24,10 +26,19 @@ function downloadDirect() {
         return;
     }
 
-    const directLink = 'https://drive.google.com/uc?export=download&id=' + fileId;
-    window.open(directLink, '_blank');
+    // Drive App ko bypass karne ke liye direct usercontent domain
+    const directLink = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
     
-    showSuccessAnimation('Download Started Successfully!');
+    // Browser force download trigger
+    const a = document.createElement('a');
+    a.href = directLink;
+    a.rel = 'noopener noreferrer';
+    a.target = '_self';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    showSuccessAnimation('Download Started!');
 }
 
 function generateLink() {
@@ -39,7 +50,7 @@ function generateLink() {
         return;
     }
 
-    const directLink = 'https://drive.google.com/uc?export=download&id=' + fileId;
+    const directLink = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
     document.getElementById('directUrl').value = directLink;
     document.getElementById('outputBox').classList.add('active');
     
@@ -53,4 +64,3 @@ function copyToClipboard() {
     
     showSuccessAnimation('Link Copied To Clipboard!');
 }
-
