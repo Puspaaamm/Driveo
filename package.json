@@ -1,0 +1,15 @@
+{
+  "name": "driveo-downloader",
+  "version": "1.0.0",
+  "description": "Driveo Downloader Engine",
+  "main": "server.js",
+  "scripts": {
+    "setup": "sudo apt update && sudo apt install -y ffmpeg && sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && sudo chmod a+rx /usr/local/bin/yt-dlp",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
+
